@@ -1,7 +1,9 @@
 import type { Role } from "@/lib/types";
 
 export function normalizeRoomCode(value: string) {
-  return value.trim().toUpperCase().replace(/\s+/g, "");
+  const normalizedValue = value.trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
+
+  return normalizedValue.startsWith("FOOD") ? normalizedValue.slice(4) : normalizedValue;
 }
 
 export function isRole(value: unknown): value is Role {
@@ -9,5 +11,5 @@ export function isRole(value: unknown): value is Role {
 }
 
 export function generateRoomCode() {
-  return `FOOD-${Math.floor(1000 + Math.random() * 9000)}`;
+  return String(Math.floor(1000 + Math.random() * 9000));
 }

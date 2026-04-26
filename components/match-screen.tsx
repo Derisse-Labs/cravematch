@@ -29,18 +29,18 @@ export function MatchScreen({ food, onLeaveRoom, onSeePlaces }: MatchScreenProps
   }, []);
 
   return (
-    <div className="relative flex min-h-0 flex-1 flex-col justify-between overflow-y-auto px-4 pb-[calc(1.25rem+env(safe-area-inset-bottom))] pt-[calc(1rem+env(safe-area-inset-top))] text-white sm:px-6 sm:py-8">
+    <div className="relative flex min-h-0 flex-1 flex-col justify-between overflow-y-auto px-4 pb-[calc(1.25rem+env(safe-area-inset-bottom))] pt-[calc(1rem+env(safe-area-inset-top))] text-[#2b1814] sm:px-6 sm:py-8">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,95,64,0.72),transparent_68%)] opacity-70" />
 
       <div className="relative z-10 flex items-center justify-between gap-3">
-        <div className="text-xs font-bold uppercase tracking-[0.24em] text-white/70">Shared match found</div>
+        <div className="text-xs font-bold uppercase tracking-[0.24em] text-[#7c2d12]">Shared match found</div>
         <RoomExitButton inverse onClick={onLeaveRoom} />
       </div>
 
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-6 py-8 text-center">
-        <div className="space-y-3">
-          <p className="text-sm font-bold uppercase tracking-[0.28em] text-white/75">CraveMatch</p>
-          <h1 className="text-5xl font-extrabold tracking-[-0.05em]">It&apos;s a Match!</h1>
+        <div className="space-y-3 rounded-[28px] border border-white/70 bg-white/72 px-6 py-5 shadow-[0_18px_40px_rgba(255,95,64,0.14)] backdrop-blur-md">
+          <p className="text-sm font-bold uppercase tracking-[0.28em] text-[#b3290f]">CraveMatch</p>
+          <h1 className="text-5xl font-extrabold tracking-[-0.05em] text-[#221b19]">It&apos;s a Match!</h1>
         </div>
 
         <div className="relative h-52 w-52 overflow-hidden rounded-full border-4 border-white/75 shadow-[0_24px_56px_rgba(255,95,64,0.35)]">
@@ -48,8 +48,11 @@ export function MatchScreen({ food, onLeaveRoom, onSeePlaces }: MatchScreenProps
         </div>
 
         <div className="space-y-2">
-          <p className="text-lg font-medium text-white/80">You both want:</p>
-          <p className="text-3xl font-extrabold tracking-[-0.04em] text-[#ffe2bf]">{food.name}</p>
+          <p className="text-lg font-semibold text-[#6f3b2d]">You both want:</p>
+          <p className="text-3xl font-extrabold tracking-[-0.04em] text-[#9a3412]">
+            <span className="mr-2">{food.emoji}</span>
+            {food.name}
+          </p>
         </div>
       </div>
 

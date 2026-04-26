@@ -4,6 +4,7 @@ import { HomeScreen } from "@/components/home-screen";
 import { LocationsScreen } from "@/components/locations-screen";
 import { MatchScreen } from "@/components/match-screen";
 import { MobileShell } from "@/components/mobile-shell";
+import { PreferencesScreen } from "@/components/preferences-screen";
 import { SwipeScreen } from "@/components/swipe-screen";
 import { useRoomSession } from "@/lib/use-room-session";
 import { useSwipeGesture } from "@/lib/use-swipe-gesture";
@@ -27,6 +28,18 @@ export function CraveMatchApp() {
             onCreateRoom={session.createRoomSession}
             onJoinCodeChange={session.updateJoinCode}
             onJoinRoom={session.joinRoomSession}
+          />
+        ) : null}
+
+        {session.step === "preferences" ? (
+          <PreferencesScreen
+            error={session.error}
+            initialPrompt={session.placePrompt}
+            isLoading={session.isLoading}
+            onContinue={session.savePlacePreferences}
+            onLeaveRoom={session.leaveRoom}
+            onSkip={session.skipPlacePreferences}
+            roomCode={session.roomCode}
           />
         ) : null}
 
@@ -54,7 +67,12 @@ export function CraveMatchApp() {
         ) : null}
 
         {session.step === "result" && session.matchedFood ? (
-          <LocationsScreen food={session.matchedFood} onLeaveRoom={session.leaveRoom} />
+          <LocationsScreen
+            food={session.matchedFood}
+            onLeaveRoom={session.leaveRoom}
+            places={session.rankedPlaces}
+            preferenceSummary={session.placePreferenceSummary}
+          />
         ) : null}
       </MobileShell>
     </main>

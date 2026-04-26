@@ -38,7 +38,10 @@ export function FoodCard({ food, nextFood, style, pointerHandlers }: FoodCardPro
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-white/75">
             Swipe right to like
           </p>
-          <h2 className="text-4xl font-extrabold tracking-[-0.03em]">{food.name}</h2>
+          <h2 className="text-4xl font-extrabold tracking-[-0.03em]">
+            <span className="mr-2">{food.emoji}</span>
+            {food.name}
+          </h2>
           <p className="max-w-[18rem] text-sm text-white/85">
             Match your next bowl, baguette, or noodle craving together.
           </p>

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { foods } from "@/lib/foods";
+import { getPlacePreferenceSummary, rankPlaces } from "@/lib/place-ranking";
 import {
   ApiError,
   createRoomRequest,
@@ -8,6 +9,7 @@ import {
   joinRoomRequest,
   leaveRoomRequest,
   likeFoodRequest,
+  saveRoomPreferencesRequest,
 } from "@/lib/room-client";
 import { normalizeRoomCode } from "@/lib/room-utils";
 import type { Role, Step } from "@/lib/types";
@@ -20,6 +22,8 @@ export function useRoomSession() {
   const [role, setRole] = useState<Role | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [match, setMatch] = useState<string | null>(null);
+  const [placePrompt, setPlacePrompt] = useState("");
+  const [preferencesReady, setPreferencesReady] = useState(false);
   const [step, setStep] = useState<Step>("home");
   const [joinCode, setJoinCode] = useState("");
   const [error, setError] = useState("");
@@ -32,6 +36,13 @@ export function useRoomSession() {
     () => foods.find((food) => food.id === match) ?? null,
     [match],
   );
+
+  const rankedPlaces = useMemo(
+    () => (matchedFood ? rankPlaces(matchedFood.places, placePrompt) : []),
+    [matchedFood, placePrompt],
+  );
+
+  const placePreferenceSummary = useMemo(() => getPlacePreferenceSummary(placePrompt), [placePrompt]);
 
   const advanceFood = useCallback(() => {
     setCurrentIndex((index) => (index + 1) % foods.length);
@@ -46,6 +57,8 @@ export function useRoomSession() {
     setRoomCode("");
     setRole(null);
     setMatch(null);
+    setPlacePrompt("");
+    setPreferencesReady(false);
     setCurrentIndex(0);
     setJoinCode("");
     setError(nextError);
@@ -64,7 +77,9 @@ export function useRoomSession() {
       setRole(response.role);
       setCurrentIndex(0);
       setMatch(null);
-      setStep("swipe");
+      setPlacePrompt("");
+      setPreferencesReady(false);
+      setStep("preferences");
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : "Unable to create room.");
     } finally {
@@ -84,6 +99,8 @@ export function useRoomSession() {
       setRole(response.role);
       setCurrentIndex(0);
       setMatch(null);
+      setPlacePrompt("");
+      setPreferencesReady(false);
       setStep("swipe");
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : "Unable to join room.");
@@ -110,6 +127,8 @@ export function useRoomSession() {
 
       if (room.match) {
         setMatch(room.match);
+        setPlacePrompt(room.placePrompt);
+        setPreferencesReady(room.preferencesReady);
         setStep("match");
       }
     } catch (requestError) {
@@ -125,6 +144,38 @@ export function useRoomSession() {
   const showResults = useCallback(() => {
     setStep("result");
   }, []);
+
+  const savePlacePreferences = useCallback(
+    async (prompt: string) => {
+      if (!roomCode || role !== "A") {
+        return;
+      }
+
+      try {
+        setIsLoading(true);
+        setError("");
+
+        const room = await saveRoomPreferencesRequest({
+          roomCode,
+          role,
+          prompt,
+        });
+
+        setPlacePrompt(room.placePrompt);
+        setPreferencesReady(room.preferencesReady);
+        setStep("swipe");
+      } catch (requestError) {
+        setError(requestError instanceof Error ? requestError.message : "Unable to save preferences.");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [role, roomCode],
+  );
+
+  const skipPlacePreferences = useCallback(async () => {
+    await savePlacePreferences("");
+  }, [savePlacePreferences]);
 
   const leaveRoom = useCallback(async () => {
     if (roomCode && role) {
@@ -166,7 +217,7 @@ export function useRoomSession() {
   }, [clearStoredSession, role, roomCode]);
 
   useEffect(() => {
-    if (!roomCode || !role || step !== "swipe") {
+    if (!roomCode || !role || (step !== "preferences" && step !== "swipe")) {
       return;
     }
 
@@ -180,9 +231,17 @@ export function useRoomSession() {
           return;
         }
 
+        setPlacePrompt(room.placePrompt);
+        setPreferencesReady(room.preferencesReady);
+
         if (room.match) {
           setMatch(room.match);
           setStep("match");
+          return;
+        }
+
+        if (role === "A") {
+          setStep(room.preferencesReady ? "swipe" : "preferences");
         }
       } catch (requestError) {
         if (!active) {
@@ -213,14 +272,20 @@ export function useRoomSession() {
     currentFood,
     nextFood,
     matchedFood,
+    rankedPlaces,
     step,
     joinCode,
+    placePrompt,
+    placePreferenceSummary,
+    preferencesReady,
     error,
     isLoading,
     createRoomSession,
     joinRoomSession,
     likeCurrentFood,
     skipCurrentFood,
+    savePlacePreferences,
+    skipPlacePreferences,
     showResults,
     leaveRoom,
     updateJoinCode,

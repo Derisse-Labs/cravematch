@@ -13,6 +13,12 @@ type LeaveRoomInput = {
   role: unknown;
 };
 
+type SetRoomPreferencesInput = {
+  roomCode: string;
+  role: unknown;
+  prompt: string;
+};
+
 export class RoomServiceError extends Error {
   status: number;
 
@@ -47,6 +53,8 @@ function serializeRoom(room: StoredRoomState): RoomState {
     playerA: room.playerA,
     playerB: room.playerB,
     match: room.match,
+    placePrompt: room.placePrompt,
+    preferencesReady: room.preferencesReady,
   };
 }
 
@@ -66,6 +74,8 @@ export function createRoom() {
     playerA: [],
     playerB: [],
     match: null,
+    placePrompt: "",
+    preferencesReady: false,
     playerAJoined: true,
     playerBJoined: false,
   };
@@ -115,6 +125,23 @@ export function likeFood({ roomCode, role, foodId }: LikeFoodInput) {
 
 export function getRoomState(roomCode: string) {
   return serializeRoom(getRoomOrThrow(roomCode));
+}
+
+export function setRoomPreferences({ roomCode, role, prompt }: SetRoomPreferencesInput) {
+  if (role !== "A") {
+    throw new RoomServiceError("Only Player A can set place preferences.", 403);
+  }
+
+  const room = getRoomOrThrow(roomCode);
+
+  if (!room.playerAJoined) {
+    throw new RoomServiceError("Player is not active in this room.", 409);
+  }
+
+  room.placePrompt = prompt.trim();
+  room.preferencesReady = true;
+
+  return serializeRoom(room);
 }
 
 export function leaveRoom({ roomCode, role }: LeaveRoomInput) {

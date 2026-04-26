@@ -71,7 +71,8 @@ export function HomeScreen({
             <input
               className="h-14 w-full rounded-2xl border border-[#f3d0c7] bg-white px-4 text-base font-semibold uppercase tracking-[0.18em] text-[#7c2d12] outline-none ring-0 placeholder:tracking-[0.18em] placeholder:text-[#c08472] focus:border-[#ff5f40]"
               enterKeyHint="go"
-              maxLength={9}
+              inputMode="numeric"
+              maxLength={4}
               onKeyDown={(event) => {
                 if (event.key === "Enter") {
                   event.preventDefault();
@@ -79,7 +80,7 @@ export function HomeScreen({
                 }
               }}
               onChange={(event) => onJoinCodeChange(event.target.value)}
-              placeholder="FOOD-1234"
+              placeholder="1234"
               value={joinCode}
             />
 

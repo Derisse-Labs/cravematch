@@ -10,11 +10,20 @@ export function RoomExitButton({ onClick, inverse = false }: RoomExitButtonProps
 
   return (
     <button
-      className={`inline-flex min-h-11 items-center justify-center rounded-full border px-4 text-sm font-bold transition active:scale-[0.98] ${toneClassName}`}
+      aria-label="Quit room"
+      className={`inline-flex h-11 w-11 touch-manipulation items-center justify-center rounded-full border transition active:scale-[0.98] ${toneClassName}`}
       onClick={onClick}
       type="button"
     >
-      Quit room
+      <svg aria-hidden="true" className="h-4 w-4" fill="none" viewBox="0 0 24 24">
+        <path
+          d="M6 6L18 18M18 6L6 18"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2.4"
+        />
+      </svg>
     </button>
   );
 }

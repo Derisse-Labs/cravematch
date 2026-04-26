@@ -56,20 +56,32 @@ export function SwipeScreen({
         <FoodCard food={currentFood} nextFood={nextFood} pointerHandlers={pointerHandlers} style={swipeStyle} />
       </div>
 
-      <div className="mt-5 grid shrink-0 grid-cols-2 gap-4">
+      <div className="mt-5 flex shrink-0 items-center justify-center gap-5">
         <button
-          className="min-h-16 rounded-[26px] border border-white/80 bg-white/75 px-5 text-base font-bold text-[#7a341f] shadow-[0_16px_32px_rgba(255,95,64,0.10)] transition hover:scale-[1.01] active:scale-[0.98]"
+          aria-label="Skip"
+          className="flex h-16 w-16 touch-manipulation items-center justify-center rounded-full border border-white/80 bg-white/75 text-[#7a341f] shadow-[0_16px_32px_rgba(255,95,64,0.10)] transition hover:scale-[1.01] active:scale-[0.98]"
           onClick={onSkip}
           type="button"
         >
-          Skip
+          <svg aria-hidden="true" className="h-7 w-7" fill="none" viewBox="0 0 24 24">
+            <path
+              d="M6 6L18 18M18 6L6 18"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2.4"
+            />
+          </svg>
         </button>
         <button
-          className="min-h-16 rounded-[26px] bg-[#ff5f40] px-5 text-base font-bold text-white shadow-[0_20px_36px_rgba(255,95,64,0.30)] transition hover:scale-[1.01] active:scale-[0.98]"
+          aria-label="Like"
+          className="flex h-16 w-16 touch-manipulation items-center justify-center rounded-full bg-[#ff5f40] text-white shadow-[0_20px_36px_rgba(255,95,64,0.30)] transition hover:scale-[1.01] active:scale-[0.98]"
           onClick={onLike}
           type="button"
         >
-          Like
+          <svg aria-hidden="true" className="h-7 w-7" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+          </svg>
         </button>
       </div>
 

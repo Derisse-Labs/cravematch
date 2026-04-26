@@ -1,4 +1,4 @@
-import type { LikePayload, RoomJoinResponse, RoomState } from "@/lib/types";
+import type { LikePayload, RoomJoinResponse, RoomPreferencesPayload, RoomState } from "@/lib/types";
 
 export class ApiError extends Error {
   status: number;
@@ -77,6 +77,18 @@ export async function likeFoodRequest(payload: LikePayload) {
 export async function getRoomStateRequest(roomCode: string) {
   const response = await fetch(`/api/room/state?roomCode=${encodeURIComponent(roomCode)}`, {
     method: "GET",
+  });
+
+  return readJson<RoomState>(response);
+}
+
+export async function saveRoomPreferencesRequest(payload: RoomPreferencesPayload) {
+  const response = await fetch("/api/room/preferences", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
   });
 
   return readJson<RoomState>(response);
