@@ -1,0 +1,300 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CraveMatch - Swipe</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-fixed-variant": "#004f55",
+              "on-background": "#191c1d",
+              "inverse-primary": "#ffb4a5",
+              "secondary-container": "#feb23f",
+              "on-secondary-container": "#6e4600",
+              "surface-container-lowest": "#ffffff",
+              secondary: "#835500",
+              "on-secondary-fixed-variant": "#633f00",
+              outline: "#8e706a",
+              "surface-bright": "#f8fafb",
+              "primary-fixed-dim": "#ffb4a5",
+              "secondary-fixed-dim": "#ffb955",
+              "surface-container-highest": "#e1e3e4",
+              "on-primary-fixed-variant": "#8e1500",
+              "on-primary-fixed": "#3e0400",
+              "error-container": "#ffdad6",
+              surface: "#f8fafb",
+              "tertiary-fixed": "#84f3ff",
+              "surface-container-low": "#f2f4f5",
+              "outline-variant": "#e3beb7",
+              "surface-variant": "#e1e3e4",
+              "on-tertiary-fixed": "#002023",
+              "secondary-fixed": "#ffddb4",
+              tertiary: "#006971",
+              "on-error": "#ffffff",
+              "surface-container": "#eceeef",
+              error: "#ba1a1a",
+              "tertiary-fixed-dim": "#5cd7e4",
+              background: "#f8fafb",
+              "on-tertiary": "#ffffff",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#00a4b0",
+              "on-surface-variant": "#5a413b",
+              "on-tertiary-container": "#003337",
+              "surface-tint": "#b3290f",
+              "primary-fixed": "#ffdad3",
+              "inverse-surface": "#2e3132",
+              "on-surface": "#191c1d",
+              "surface-dim": "#d8dadb",
+              "primary-container": "#ff5f40",
+              "inverse-on-surface": "#eff1f2",
+              "on-primary-container": "#5f0a00",
+              "surface-container-high": "#e6e8e9",
+              "on-error-container": "#93000a",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed": "#291800",
+              primary: "#b3290f",
+            },
+            borderRadius: {
+              DEFAULT: "1rem",
+              lg: "2rem",
+              xl: "3rem",
+              full: "9999px",
+            },
+            spacing: {
+              "stack-sm": "12px",
+              "stack-md": "24px",
+              "container-padding": "24px",
+              gutter: "16px",
+              "stack-lg": "40px",
+              base: "8px",
+            },
+            fontFamily: {
+              h2: ["Plus Jakarta Sans"],
+              "label-caps": ["Plus Jakarta Sans"],
+              "body-lg": ["Plus Jakarta Sans"],
+              display: ["Plus Jakarta Sans"],
+              "body-md": ["Plus Jakarta Sans"],
+              h1: ["Plus Jakarta Sans"],
+            },
+            fontSize: {
+              h2: ["24px", { lineHeight: "32px", fontWeight: "700" }],
+              "label-caps": [
+                "12px",
+                {
+                  lineHeight: "16px",
+                  letterSpacing: "0.05em",
+                  fontWeight: "700",
+                },
+              ],
+              "body-lg": ["18px", { lineHeight: "28px", fontWeight: "500" }],
+              display: [
+                "40px",
+                {
+                  lineHeight: "48px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "800",
+                },
+              ],
+              "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              h1: [
+                "32px",
+                {
+                  lineHeight: "40px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "700",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        background-color: theme("colors.background");
+        color: theme("colors.on-background");
+      }
+      .app-container {
+        max-width: 430px;
+        margin: 0 auto;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        background-color: theme("colors.surface-container-lowest");
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
+      }
+
+      /* Swiper Card Elevation */
+      .swiper-card {
+        box-shadow: 0 12px 32px rgba(255, 95, 64, 0.08);
+      }
+
+      /* Action Button Elevation */
+      .btn-elevated {
+        box-shadow: 0 8px 16px rgba(255, 95, 64, 0.2);
+      }
+    </style>
+    <style>
+      body {
+        min-height: max(884px, 100dvh);
+      }
+    </style>
+  </head>
+  <body class="antialiased">
+    <div class="app-container">
+      <!-- Top App Bar -->
+      <header
+        class="fixed top-0 left-0 w-full flex justify-between items-center px-6 h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md full-width top-0 z-50 flat no shadows max-w-[430px] mx-auto right-0"
+      >
+        <button
+          class="text-slate-400 hover:bg-slate-100 transition-colors p-2 rounded-full flex items-center justify-center"
+        >
+          <span class="material-symbols-outlined" data-icon="person"
+            >person</span
+          >
+        </button>
+        <h1
+          class="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#FF5F40] tracking-tighter text-2xl font-black"
+        >
+          CraveMatch
+        </h1>
+        <button
+          class="text-slate-400 hover:bg-slate-100 transition-colors p-2 rounded-full flex items-center justify-center"
+        >
+          <span class="material-symbols-outlined" data-icon="settings"
+            >settings</span
+          >
+        </button>
+      </header>
+      <!-- Main Content Area -->
+      <main
+        class="flex-grow flex flex-col px-container-padding pt-24 pb-32 overflow-hidden"
+      >
+        <!-- Player Toggle -->
+        <!-- Swipe Card Area -->
+        <div
+          class="flex-grow flex items-center justify-center relative w-full h-full max-h-[530px]"
+        >
+          <!-- Next Card (Stacked beneath) -->
+          <div
+            class="absolute inset-0 bg-surface rounded-xl flex flex-col items-center justify-center scale-95 origin-bottom opacity-50 translate-y-4"
+          ></div>
+          <!-- Active Card -->
+          <div
+            class="absolute inset-0 bg-surface-container-lowest rounded-xl swiper-card flex flex-col overflow-hidden border border-surface-container transition-transform"
+          >
+            <!-- Image/Emoji Area -->
+            <div
+              class="flex-grow flex items-center justify-center bg-surface-bright relative"
+            >
+              <!-- Decorative background element -->
+              <div
+                class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary-container to-transparent"
+              ></div>
+              <div class="text-[120px] leading-none z-10 drop-shadow-md">
+                🍜
+              </div>
+            </div>
+            <!-- Card Info -->
+            <div
+              class="p-stack-md bg-surface-container-lowest flex flex-col items-center text-center z-20"
+            >
+              <h2 class="font-display text-display text-on-background mb-base">
+                Ramen
+              </h2>
+              <!-- Tags -->
+              <div class="flex gap-gutter justify-center mt-base">
+                <span
+                  class="px-3 py-1 bg-primary-container/10 text-primary rounded-full font-label-caps text-label-caps"
+                  >Asian</span
+                >
+                <span
+                  class="px-3 py-1 bg-primary-container/10 text-primary rounded-full font-label-caps text-label-caps"
+                  >Comfort</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Action Buttons -->
+        <div class="flex justify-center items-center gap-stack-lg mt-stack-md">
+          <!-- Pass Button -->
+          <button
+            class="w-16 h-16 rounded-full bg-surface-container-lowest border-2 border-surface-container-high text-on-surface-variant flex items-center justify-center transition-transform hover:scale-95 shadow-sm"
+          >
+            <span class="material-symbols-outlined text-3xl" data-icon="close"
+              >close</span
+            >
+          </button>
+          <!-- Like Button -->
+          <button
+            class="w-20 h-20 rounded-full bg-primary-container text-on-primary flex items-center justify-center btn-elevated transition-transform hover:scale-105"
+          >
+            <span
+              class="material-symbols-outlined text-4xl"
+              data-icon="favorite"
+              data-weight="fill"
+              style="font-variation-settings: &quot;FILL&quot; 1"
+              >favorite</span
+            >
+          </button>
+        </div>
+      </main>
+      <!-- Bottom Nav Bar -->
+      <nav
+        class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-8 pb-8 pt-4 bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 shadow-[0_-8px_32px_rgba(255,95,64,0.08)] max-w-[430px] mx-auto right-0 rounded-t-[32px]"
+      >
+        <a
+          class="flex flex-col items-center justify-center bg-[#FF5F40]/10 text-[#FF5F40] rounded-full p-3 font-['Plus_Jakarta_Sans'] font-medium text-[10px]"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined mb-1"
+            data-icon="restaurant"
+            data-weight="fill"
+            style="font-variation-settings: &quot;FILL&quot; 1"
+            >restaurant</span
+          >
+          <span class="sr-only">restaurant</span>
+        </a>
+        <a
+          class="flex flex-col items-center justify-center text-slate-400 p-3 hover:text-[#FF5F40] transition-all font-['Plus_Jakarta_Sans'] font-medium text-[10px]"
+          href="#"
+        >
+          <span class="material-symbols-outlined mb-1" data-icon="favorite"
+            >favorite</span
+          >
+          <span class="sr-only">favorite</span>
+        </a>
+        <a
+          class="flex flex-col items-center justify-center text-slate-400 p-3 hover:text-[#FF5F40] transition-all font-['Plus_Jakarta_Sans'] font-medium text-[10px]"
+          href="#"
+        >
+          <span class="material-symbols-outlined mb-1" data-icon="history"
+            >history</span
+          >
+          <span class="sr-only">history</span>
+        </a>
+      </nav>
+    </div>
+  </body>
+</html>
