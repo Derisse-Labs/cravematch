@@ -1,3 +1,8 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+
+import { PlacesMiniMap } from "@/components/places-mini-map";
 import { RoomExitButton } from "@/components/room-exit-button";
 import type { FoodItem, RankedFoodPlace } from "@/lib/types";
 
@@ -9,6 +14,18 @@ type LocationsScreenProps = {
 };
 
 export function LocationsScreen({ food, places, preferenceSummary, onLeaveRoom }: LocationsScreenProps) {
+  const [selectedPlaceKey, setSelectedPlaceKey] = useState<string>("");
+
+  useEffect(() => {
+    const firstPlace = places[0];
+    setSelectedPlaceKey(firstPlace ? `${firstPlace.name}__${firstPlace.address}` : "");
+  }, [places]);
+
+  const selectedPlace = useMemo(
+    () => places.find((place) => `${place.name}__${place.address}` === selectedPlaceKey) ?? places[0] ?? null,
+    [places, selectedPlaceKey],
+  );
+
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-4 pb-[calc(1.25rem+env(safe-area-inset-bottom))] pt-[calc(1rem+env(safe-area-inset-top))] sm:px-6 sm:pb-8 sm:pt-7">
       <div className="flex items-start justify-between gap-3">
@@ -24,11 +41,24 @@ export function LocationsScreen({ food, places, preferenceSummary, onLeaveRoom }
         <RoomExitButton onClick={onLeaveRoom} />
       </div>
 
+      <div className="mt-6">
+        <PlacesMiniMap
+          onSelectPlace={(place) => setSelectedPlaceKey(`${place.name}__${place.address}`)}
+          places={places}
+          selectedPlace={selectedPlace}
+        />
+      </div>
+
       <div className="mt-8 space-y-4">
         {places.map((place, index) => (
           <div
-            key={place.name}
-            className="rounded-[26px] border border-white/80 bg-white/72 p-5 shadow-[0_18px_40px_rgba(255,95,64,0.10)] backdrop-blur-md"
+            key={`${place.name}-${place.address}`}
+            className={`rounded-[26px] border bg-white/72 p-5 shadow-[0_18px_40px_rgba(255,95,64,0.10)] backdrop-blur-md transition ${
+              selectedPlace?.name === place.name && selectedPlace.address === place.address
+                ? "cursor-pointer border-[#ff5f40]/70 ring-2 ring-[#ff5f40]/18"
+                : "cursor-pointer border-white/80"
+            }`}
+            onClick={() => setSelectedPlaceKey(`${place.name}__${place.address}`)}
           >
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-3">

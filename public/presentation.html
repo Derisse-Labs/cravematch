@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>CraveMatch Presentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg-1: #fff8f4;
+        --bg-2: #ffece3;
+        --card: rgba(255, 255, 255, 0.9);
+        --line: rgba(255, 255, 255, 0.92);
+        --text: #1f1715;
+        --muted: #6f534b;
+        --accent: #ff5f40;
+        --accent-deep: #b3290f;
+        --accent-soft: rgba(255, 95, 64, 0.12);
+        --shadow: 0 28px 80px rgba(255, 95, 64, 0.14);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Plus Jakarta Sans", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top, rgba(255, 143, 117, 0.45), transparent 30%),
+          linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .slides {
+        scroll-snap-type: y mandatory;
+      }
+
+      .slide {
+        min-height: 100vh;
+        padding: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        scroll-snap-align: start;
+      }
+
+      .frame {
+        width: min(1320px, 100%);
+        min-height: calc(100vh - 48px);
+        border: 1px solid var(--line);
+        border-radius: 40px;
+        background: var(--card);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+        padding: 48px 56px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .topline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .eyebrow,
+      .slide-no,
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow,
+      .pill {
+        background: var(--accent-soft);
+        color: var(--accent-deep);
+      }
+
+      .eyebrow {
+        padding: 12px 16px;
+        font-size: 0.88rem;
+      }
+
+      .slide-no {
+        color: #93685c;
+        font-size: 0.86rem;
+      }
+
+      .content {
+        display: grid;
+        gap: 24px;
+      }
+
+      .center {
+        text-align: center;
+        justify-items: center;
+      }
+
+      .two-col,
+      .three-col,
+      .food-grid {
+        display: grid;
+        gap: 18px;
+      }
+
+      .two-col {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .three-col {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .food-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1,
+      h2 {
+        letter-spacing: -0.08em;
+        line-height: 0.92;
+      }
+
+      h1 {
+        font-size: clamp(4.6rem, 9vw, 7.8rem);
+        max-width: 12ch;
+      }
+
+      h2 {
+        font-size: clamp(3.6rem, 7vw, 6rem);
+        max-width: 13ch;
+      }
+
+      h3 {
+        font-size: clamp(1.5rem, 2.4vw, 2rem);
+        letter-spacing: -0.05em;
+      }
+
+      .accent {
+        color: var(--accent);
+      }
+
+      .lead {
+        max-width: 32ch;
+        font-size: clamp(1.35rem, 2.1vw, 1.9rem);
+        line-height: 1.55;
+        color: var(--muted);
+      }
+
+      .statement {
+        max-width: 18ch;
+        font-size: clamp(2.3rem, 4.4vw, 3.8rem);
+        line-height: 1.12;
+        letter-spacing: -0.06em;
+      }
+
+      .card,
+      .food-chip,
+      .quote {
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 18px 40px rgba(255, 95, 64, 0.08);
+      }
+
+      .card,
+      .quote {
+        padding: 24px;
+      }
+
+      .card p,
+      .quote p {
+        margin-top: 14px;
+        font-size: clamp(1.02rem, 1.6vw, 1.3rem);
+        line-height: 1.65;
+        color: var(--muted);
+      }
+
+      .big-number {
+        font-size: clamp(2.8rem, 5vw, 4.2rem);
+        font-weight: 800;
+        letter-spacing: -0.08em;
+        color: var(--accent);
+      }
+
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .pill {
+        padding: 12px 16px;
+        font-size: 0.92rem;
+      }
+
+      .food-chip {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 22px 18px;
+        font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+      }
+
+      .food-chip span:first-child {
+        font-size: 1.8em;
+      }
+
+      .footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        color: #8c6659;
+        font-size: 0.95rem;
+        font-weight: 700;
+      }
+
+      .launch {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px 22px;
+        border-radius: 999px;
+        background: var(--accent);
+        color: white;
+        font-size: 0.96rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        box-shadow: 0 16px 34px rgba(255, 95, 64, 0.22);
+      }
+
+      .hint {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 30;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.8);
+        color: #8c6659;
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        box-shadow: 0 10px 24px rgba(255, 95, 64, 0.1);
+      }
+
+      @media (max-width: 1024px) {
+        .two-col,
+        .three-col,
+        .food-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 760px) {
+        .slide {
+          padding: 12px;
+        }
+
+        .frame {
+          min-height: calc(100vh - 24px);
+          padding: 24px;
+          border-radius: 28px;
+        }
+
+        .topline,
+        .footer {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .two-col,
+        .three-col,
+        .food-grid {
+          grid-template-columns: 1fr;
+        }
+
+        h1 {
+          font-size: 3.6rem;
+        }
+
+        h2 {
+          font-size: 3rem;
+        }
+
+        .hint {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="slides">
+      <section class="slide" id="slide-1">
+        <div class="frame">
+          <div class="topline">
+            <div class="eyebrow">CraveMatch</div>
+            <div class="slide-no">01 / 06</div>
+          </div>
+
+          <div class="content center">
+            <h1>Finding food together should feel <span class="accent">easy</span>.</h1>
+            <p class="lead">
+              CraveMatch helps two people quickly agree on what they want to eat in Da Nang.
+            </p>
+            <div class="pill-row">
+              <span class="pill">2 people</span>
+              <span class="pill">1 shared choice</span>
+              <span class="pill">0 awkward debate</span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <span>Open on a big screen and present slide by slide.</span>
+            <a class="launch" href="/">Open app</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-2">
+        <div class="frame">
+          <div class="topline">
+            <div class="eyebrow">The problem</div>
+            <div class="slide-no">02 / 06</div>
+          </div>
+
+          <div class="content">
+            <h2>Choosing where to eat together takes too <span class="accent">long</span>.</h2>
+            <div class="three-col">
+              <div class="card">
+                <div class="big-number">Too many</div>
+                <h3>options</h3>
+                <p>People compare everything and commit to nothing.</p>
+              </div>
+              <div class="card">
+                <div class="big-number">Too much</div>
+                <h3>back and forth</h3>
+                <p>Everyone starts with a different craving.</p>
+              </div>
+              <div class="card">
+                <div class="big-number">Too little</div>
+                <h3>momentum</h3>
+                <p>The decision becomes the worst part of going out.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer">
+            <span>The pain is not food discovery. The pain is shared decision-making.</span>
+            <span></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-3">
+        <div class="frame">
+          <div class="topline">
+            <div class="eyebrow">The idea</div>
+            <div class="slide-no">03 / 06</div>
+          </div>
+
+          <div class="content center">
+            <h2>Start with the <span class="accent">craving</span>, not the restaurant.</h2>
+            <p class="statement">
+              If two people agree on the dish first, picking the place becomes much easier.
+            </p>
+            <div class="two-col">
+              <div class="card">
+                <h3>Swipe on food</h3>
+                <p>People react naturally to what they feel like eating right now.</p>
+              </div>
+              <div class="card">
+                <h3>Match and move</h3>
+                <p>Once they match, they can go straight to where to eat it.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer">
+            <span>CraveMatch turns indecision into a playful shared moment.</span>
+            <span></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-4">
+        <div class="frame">
+          <div class="topline">
+            <div class="eyebrow">How it works</div>
+            <div class="slide-no">04 / 06</div>
+          </div>
+
+          <div class="content">
+            <h2>Four simple steps.</h2>
+            <div class="two-col">
+              <div class="card">
+                <h3>1. Create a room</h3>
+                <p>One person starts the session and shares the room code.</p>
+              </div>
+              <div class="card">
+                <h3>2. Join the room</h3>
+                <p>The second person enters the code on their own phone.</p>
+              </div>
+              <div class="card">
+                <h3>3. Swipe on dishes</h3>
+                <p>Both people like or skip until the same food wins.</p>
+              </div>
+              <div class="card">
+                <h3>4. Pick the place</h3>
+                <p>The app shows where to go next so the decision feels complete.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer">
+            <span>Simple enough to explain in seconds. Fun enough to remember.</span>
+            <span></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-5">
+        <div class="frame">
+          <div class="topline">
+            <div class="eyebrow">The flavor</div>
+            <div class="slide-no">05 / 06</div>
+          </div>
+
+          <div class="content">
+            <h2>Built around dishes people already <span class="accent">love</span>.</h2>
+            <div class="food-grid">
+              <div class="food-chip"><span>🍲</span><span>Phở Bò</span></div>
+              <div class="food-chip"><span>🍲</span><span>Phở Gà</span></div>
+              <div class="food-chip"><span>🥖</span><span>Bánh Mì</span></div>
+              <div class="food-chip"><span>🍜</span><span>Mì Quảng</span></div>
+              <div class="food-chip"><span>🍜</span><span>Bún Bò Huế</span></div>
+              <div class="food-chip"><span>🍛</span><span>Cơm Tấm</span></div>
+              <div class="food-chip"><span>🥞</span><span>Bánh Xèo</span></div>
+              <div class="food-chip"><span>🦞</span><span>Hải Sản</span></div>
+            </div>
+          </div>
+
+          <div class="footer">
+            <span>Local food makes the experience feel familiar, specific, and memorable.</span>
+            <span></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-6">
+        <div class="frame">
+          <div class="topline">
+            <div class="eyebrow">Closing</div>
+            <div class="slide-no">06 / 06</div>
+          </div>
+
+          <div class="content center">
+            <h2>
+              CraveMatch helps people go from<br />
+              <span class="accent">“What do you want?”</span><br />
+              to <span class="accent">“Let’s go.”</span>
+            </h2>
+            <div class="quote">
+              <p>
+                A better dining decision feels social, fast, and confident. That is the experience this
+                product is built to create.
+              </p>
+            </div>
+          </div>
+
+          <div class="footer">
+            <span>Thank you.</span>
+            <a class="launch" href="#slide-1">Restart</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="hint">Use arrow keys or space to change slides</div>
+
+    <script>
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      let currentIndex = 0;
+
+      function syncCurrentIndex() {
+        const viewportCenter = window.scrollY + window.innerHeight / 2;
+
+        let closestIndex = 0;
+        let closestDistance = Number.POSITIVE_INFINITY;
+
+        slides.forEach((slide, index) => {
+          const slideCenter = slide.offsetTop + slide.offsetHeight / 2;
+          const distance = Math.abs(slideCenter - viewportCenter);
+
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestIndex = index;
+          }
+        });
+
+        currentIndex = closestIndex;
+      }
+
+      function goToSlide(index) {
+        const boundedIndex = Math.max(0, Math.min(index, slides.length - 1));
+        currentIndex = boundedIndex;
+        slides[boundedIndex].scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      window.addEventListener('scroll', syncCurrentIndex, { passive: true });
+      window.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
+          event.preventDefault();
+          goToSlide(currentIndex + 1);
+        }
+
+        if (event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'PageUp') {
+          event.preventDefault();
+          goToSlide(currentIndex - 1);
+        }
+
+        if (event.key === 'Home') {
+          event.preventDefault();
+          goToSlide(0);
+        }
+
+        if (event.key === 'End') {
+          event.preventDefault();
+          goToSlide(slides.length - 1);
+        }
+      });
+
+      syncCurrentIndex();
+    </script>
+  </body>
+</html>
