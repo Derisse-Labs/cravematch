@@ -4,3 +4,7 @@ npm-debug.log*
 package-lock.json
 dist
 .playwright-mcp
+.env
+.env.*
+!.env.example
+.DS_Store
